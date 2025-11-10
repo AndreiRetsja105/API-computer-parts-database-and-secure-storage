@@ -1,201 +1,187 @@
-/* ---- Page shell ------------------ */
-/* layout container that centers the main content area and also applies default text color */
+/* main page look */
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
+  margin: 0;
+  padding: 0;
+}
+/* dark background + light text */
+
+/* layout center content */
+.container1 {
+  width: 100%;
+  background: #1b1b1b;
+  padding: 10px 0;
+}
+/* top nav bar */
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  padding-left: 20px;
+}
+/* simple white link for logo */
 
 .shell {
-  max-width: 1200px;          /* limit width of the page*/
-  margin: 120px auto 4rem;    /* Center page, add top and bottom spacing */
-  padding: 0 20px;             /* horizontal pad.*/
-  color: #e9f0ff;            /*  text color  default*/
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
+/* center main body */
 
-
-/*heading style */
-.page-title {
-  font-size: 2rem;        /* large font size for main   */                 
-  font-weight: 700;      /* bold text */
-  margin: 0 0 1rem 0;             /* botom space */
-  text-shadow: 0 3px 10px rgba(0,0,0,.7);     /* glowing shadow */
-}
-
-.tag {
-  display: inline-block;
-  margin-left: .5rem;
-  padding: 2px 8px;
-  font-size: .8rem;
-  border-radius: 999px;
-  color: #cfe4ff;
-  background: rgba(50,100,180,.25);
-  border: 1px solid rgba(255,255,255,.2);
-}
-
-/* ======= Grid / Cards ======= */
+/* grid for two cards */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px;
+  gap: 20px;
 }
+/* side by side layout */
 
-@media (max-width: 900px) {
-  .grid-2 { grid-template-columns: 1fr; }
-}
-
+/* card base look */
 .card {
-  background: rgba(22, 34, 46, 0.55);
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 30px 70px rgba(0,0,0,.65);
-  backdrop-filter: blur(10px) saturate(160%);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-}
-
-.card-title {
-  margin: 0 0 12px;
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.divider {
-  height: 1px;
-  border: 0;
-  margin: 18px 0;
-  background: linear-gradient(
-    to right,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.02)
-  );
-}
-
-/* ======= Form rows & labels ======= */
-.row { margin: 12px 0; }
-
-.label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: .9rem;
-  color: #cfe4ff;
-  opacity: .9;
-}
-
-/* ======= Inputs (text/file) ======= */
-.input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(8,16,24,.4);
-  color: #e9f0ff;
-  outline: none;
-  transition: box-shadow .2s, border-color .2s;
-  box-sizing: border-box;
-}
-
-.input:focus {
-  border-color: rgba(90,140,255,.65);
-  box-shadow: 0 0 0 3px rgba(74,107,255,.28);
-}
-
-.input-file {
-  padding: 10px 12px;
-  cursor: pointer;
-  color-scheme: dark; /* makes native file input fit dark UI better */
-}
-
-/* ======= Buttons ======= */
-.actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  min-width: 120px;
-  padding: 10px 14px;
-  font-weight: 700;
-  color: #fff;
-  border: 0;
+  background: #1b1b1b;
   border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 14px 32px rgba(0,0,0,.55);
-  transition: transform .06s ease, filter .15s ease;
+  padding: 20px;
+  box-shadow: 0 0 8px #000;
 }
+/* dark boxes with small shadow */
 
-.btn:hover { filter: brightness(1.08); }
-.btn:active { transform: translateY(1px); }
+/* titles clean and centered */
+h1, h2 {
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+/* title spacing */
 
-.btn-green { background: linear-gradient(135deg,#00a86b,#007a4d); }
-.btn-blue  { background: linear-gradient(135deg,#4a6bff,#2a3a8f); }
-.btn-indigo{ background: linear-gradient(135deg,#6e7bff,#3941a7); }
-.btn-purple{ background: linear-gradient(135deg,#9b6bff,#5b2fb3); }
+/* small tag under title */
+.tag {
+  color: #00bfff;
+  font-size: 0.9em;
+}
+/* light blue label */
 
-/* ======= Result boxes (logs / outputs) ======= */
-.result-box{
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px 14px;
-  min-height: 56px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(8,16,24,.35);
-  color: #dfe8ff;
-  font: 0.95rem/1.4 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
-  box-shadow: inset 0 0 0 9999px rgba(0,0,0,.06);
+/* row spacing */
+.row {
+  margin-bottom: 12px;
+}
+/* keeps space between inputs */
+
+/* note boxes or messages */
+.result-box {
+  background: #222;
+  color: #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  min-height: 60px;
+  font-family: monospace;
   white-space: pre-wrap;
-  word-wrap: break-word;
-  box-sizing: border-box;
 }
+/* for logs and results */
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* divider line */
+.divider {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 10px 0;
+}
+/* thin gray line */
+
+/* file input */
+.input-file {
+  color: #ccc;
   width: 100%;
-  height: 75px;
-  line-height: 75px;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1000; /* stays above everything */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
 }
+/* gray text input */
 
-nav .logo a {
-  font-size: 20px;
-  font-weight: bold;
-  float: left;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-decoration: none;
+/* all buttons */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+/* base button look */
+
+/* green button */
+.btn-green {
+  background: #28a745;
+}
+/* make keypair */
+
+/* blue button */
+.btn-blue {
+  background: #0078ff;
+}
+/* export keys */
+
+/* indigo button */
+.btn-indigo {
+  background: #6610f2;
+}
+/* sign button */
+
+/* purple button */
+.btn-purple {
+  background: #6f42c1;
+}
+/* verify button */
+
+/* button hover */
+.btn:hover {
+  opacity: 0.8;
+}
+/* small fade when hover */
+
+/* help card area */
+.help-card {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #1b1b1b;
+  border-radius: 10px;
+  padding: 15px;
+}
+/* bottom info block */
+
+/* toggle button */
+.help-toggle {
+  width: 100%;
+  background: #333;
+  color: #fff;
+  border: none;
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
   cursor: pointer;
 }
+/* collapsible header */
 
-nav .logo a:hover {
-  color: #FF00FF;
-  transition: all 0.3s ease;
+/* help content */
+.help-content {
+  margin-top: 10px;
+  color: #ccc;
+  line-height: 1.5;
 }
+/* info text */
 
-nav ul {
-	float: right;
+/* small text in help */
+.help-note {
+  color: #999;
+  font-size: 0.9em;
 }
+/* extra note */
 
-nav li {
-	 display: inline-block;
-	 list-style: none;
+/* small screens stack items */
+@media (max-width: 700px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  /* one column on phone */
+  .card {
+    margin-bottom: 15px;
+  }
+  /* small gap between cards */
 }
- 
-nav li a {
-    font-size: 14px; /* Adjust font size for smaller screens */
-    text-transform: uppercase;
-    padding: 0px 15px; /* Adjust padding for smaller screens */
-    color: #C5CAE9;
-    text-decoration: none;
-}
-
-nav li a:hover{
-	 color: #FF00FF;
-	 transition: all 0.5s ease 0s; 
-	 
-}
-
