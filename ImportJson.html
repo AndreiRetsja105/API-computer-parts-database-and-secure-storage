@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computer Components API - Add Data</title>
+  <link rel="stylesheet" href="css/ImportJson.css" />
+</head>
+<body>
+  <!-- Nav is have a fix position, the style is the same everywhere -->
+  <nav>
+    <a href="index.html">Computer Components API</a>
+  </nav>
+
+  <h1 class="page-title">Add New Component to Database</h1>
+
+  <div class="container">
+    <!-- Left site panel of the page -->
+    <div class="panel">
+      <h2>Component Details</h2>
+      <label for="type">Type:</label>
+      <input type="text" id="type" placeholder="CPU" required />
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Intel Core i5" required />
+
+      <label for="manufacturer">Manufacturer:</label>
+      <input type="text" id="manufacturer" placeholder="AMD" required />
+
+      <label for="price">Price (€):</label>
+      <input type="number" id="price" placeholder="705.35" required />
+
+      <label for="cores">Number of Cores:</label>
+      <input type="number" id="cores" placeholder="2" required />
+
+      <label for="clockSpeed">Clock Speed:</label>
+      <input type="text" id="clockSpeed" placeholder="1.5 GHz" required />
+
+      <button onclick="addData()">Add Component</button>    <!-- In the future this button should add the data to the Json file -->
+    </div>
+
+    <!-- Note in to the righ site of the page -->
+    <div class="panel">
+      <h2>Future Development Notes</h2>
+      <p class="note">
+        This page is still in the proces, it will work as how users will be able to add computer parts directly to a database.
+        In future versions, data will be stored in a JSON or CSV format export/import, or can use JAXP to transform and automizate the xml into the html page straight.
+        I'm not decide yet. The one of this option will be uploaded later and connected to the main GitHub repository.
+      </p>
+      <p class="note">
+        The User will be able to input details and view components in real-time on
+        the main list page. This addition will simplify user interactions and
+        improve accessibility.
+      </p>
+      <p class="note">Thank you for reading this note.</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Computer Components API | Secure Components Database Interface
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

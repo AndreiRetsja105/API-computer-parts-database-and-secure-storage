@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Parts API</title>
+	<link rel="stylesheet" href="css/test.css"/>
+</head>
+<body>
+    <!-- Blur overlay -->
+    <div id="lock-overlay" class="lock-overlay"></div>
+
+    <!-- Login/register content -->
+    <main>
+        <div class="pm-wrapper">
+            <h1 class="pm-title">Password Manager</h1>
+
+            <section id="auth" class="pm-card">
+                <h2>Register / Login</h2>
+                <div class="pm-row">
+                    <input id="pm-username" placeholder="Username" class="pm-input" />
+                    <input id="pm-password" placeholder="Master Password" type="password" class="pm-input" />
+
+                    <button id="pm-register" class="pm-btn pm-btn-green">Register</button>
+                    <button id="pm-login" class="pm-btn pm-btn-blue">Login</button>
+                </div>
+                <p id="pm-auth-msg" class="pm-msg"></p>
+            </section>
+
+            <!-- Vault card below, etc... -->
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,399 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box; 
+}
+nav{
+	width: 100%;
+	height: 75px;
+	line-height: 75px;
+	padding: 0px 20px; /* Adjust padding for smaller screens */
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+nav .logo a {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav .logo a:hover {
+  color: #FF00FF;
+  transition: all 0.3s ease;
+}
+
+nav ul {
+	float: right;
+}
+
+nav li {
+	 display: inline-block;
+	 list-style: none;
+}
+ 
+nav li a {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    text-transform: uppercase;
+    padding: 0px 15px; /* Adjust padding for smaller screens */
+    color: #C5CAE9;
+    text-decoration: none;
+}
+
+nav li a:hover{
+	 color: #FF00FF;
+	 transition: all 0.5s ease 0s; 
+	 
+}
+
+/* Page background */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background-image: url("../images/background.gif");  /* correct relative path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+}
+
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15); /* was 0.4 */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Buttons on the Chart */
+
+.filter-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-buttons button {
+    padding: 20px;
+    margin: 80px 20px 20px;
+    background-color: #536DFE;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter-buttons button:hover {
+    background-color: #E040FB;
+}
+
+
+
+/* search Bar Settings */ 
+   
+.footer { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 10;
+}
+
+.container{
+	width:100%;
+	min-height:0vh;
+	padding:5%;
+	border: 0; 
+    border-radius: 4%;
+	background-position:center;
+	background-size:cover;
+    display:flex;
+	align-items:center;
+	justify-content:center;
+
+}
+
+.container4 {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.search-bar{
+	width:100%;
+	max-width:700px;
+	background:rgba(255,255,255,0.2);
+	display:flex;
+	align-items:center;
+	border-radius:60px;
+	padding:10px 20px;
+	background-filter: blur(4px) saturate(180%);
+}
+
+.search-bar input{
+	background:transparent;
+	flex :1;
+	border:0;
+	outline:none;
+	padding:24px 20px;
+	font-size:20px;
+	color:#FF00FF;
+	
+}
+::placeholder{
+	color:#fcfafa;
+}
+
+.search-bar button img {
+	width:25px;
+}
+.search-bar button {
+  border: 0; 
+  border-radius: 50%;
+  width:60px;  
+  height:60px;
+  background:#fcfafa;
+  cursor: pointer;
+  
+}
+
+container2 {
+    width:100%;
+	min-height:100vh;
+	background-color:white ;
+	background-position:center;
+	background-size:cover;
+    display:flex;
+	align-items:top;
+	justify-content:center;
+    text-align:center ;
+	
+}
+
+/* Setings for smaller screens */
+@media (max-width: 600px) {
+    #app {
+        padding: 10px; 
+    }
+    nav {
+        padding: 0px 10px; 
+    }
+    nav .logo p {
+        font-size: 18px; 
+    }
+    nav li a {
+        font-size: 12px; 
+        padding: 0px 10px; 
+    }
+    .container1 {
+        align-items: center;
+    }
+	 input[type="text"],
+    select,
+    #price-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
+/* --- Password Manager layout --- */
+
+.pm-wrapper {
+    max-width: 1000px;
+    margin: 140px auto 4rem auto; /* push it below the fixed nav & search bar */
+    padding: 1rem;
+    color: #1a1a1a;
+    position: relative;
+    z-index: 10;
+}
+
+.pm-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #f5f7ff;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+/* Glassy cards for Auth + Vault */
+.pm-card {
+    background: rgba(255,255,255,0.08);           /* transparent white */
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.pm-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.pm-input {
+    flex: 1 1 180px;
+    min-width: 160px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    color: #fff;
+    outline: none;
+}
+
+.pm-input:focus {
+    border-color: #4a6bff;
+    box-shadow: 0 0 0 3px rgba(74,107,255,0.4);
+}
+
+.pm-msg {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    min-height: 1em;
+    color: #90ee90; /* green-ish for status text */
+}
+
+/* Vault header row inside the vault card */
+.pm-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.pm-header-row h2 {
+    flex: 1 1 auto;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.pm-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Primary buttons */
+.pm-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+    min-width: 80px;
+    text-align: center;
+}
+
+.pm-btn-green {
+    background: linear-gradient(135deg,#00a86b,#007a4d);
+}
+
+.pm-btn-blue {
+    background: linear-gradient(135deg,#4a6bff,#2a3a8f);
+}
+
+.pm-btn-red {
+    background: linear-gradient(135deg,#d72638,#8a0f1a);
+}
+
+/* Vault table */
+.pm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    color: #fff;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+}
+
+.pm-table thead {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    text-align: left;
+}
+
+.pm-table th,
+.pm-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    vertical-align: middle;
+}
+
+.pm-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.pm-table input[type="password"] {
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+/* Copy/Delete buttons in table */
+#pm-table button.copy,
+#pm-table button.del {
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    min-width: 60px;
+}
+
+#pm-table button.copy {
+    background: linear-gradient(135deg,#4a6bff,#2a3a8f);
+}
+
+#pm-table button.del {
+    background: linear-gradient(135deg,#d72638,#8a0f1a);
+}
+
+/* Responsive tweak */
+@media (max-width: 600px) {
+    .pm-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .pm-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+

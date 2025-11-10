@@ -1,0 +1,205 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background-image: url("../images/background.gif");  /* correct relative path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+h1 {
+	margin: 0px;
+	padding:24px 20px;
+    color: #333;
+}
+
+
+
+input, button {
+    margin: 5px 0;
+}
+
+
+input[type="text"] {
+    width: 70%;
+    padding: 8px;
+    margin-right: 10px;
+}
+
+#price-input {
+    margin-right: 10px;
+}
+
+button {
+    padding: 8px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+	margin: 13px 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    margin-top: 20px 10px;
+	color: black;
+    
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("../images/background.gif");
+    background-position: center;
+    background-size: cover;
+    align-items: top;
+    justify-content: center;
+    text-align: center;
+}
+
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box; 
+}
+nav{
+	width: 100%;
+	height: 75px;
+	line-height: 75px;
+	padding: 0px 20px; /* Adjust padding for smaller screens */
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+nav .logo a {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav .logo a:hover {
+  color: #FF00FF;
+  transition: all 0.3s ease;
+}
+
+nav ul {
+	float: right;
+}
+ nav li {
+	 display: inline-block;
+	 list-style: none;
+ }
+ 
+ nav li a {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    text-transform: uppercase;
+    padding: 0px 15px; /* Adjust padding for smaller screens */
+    color: #C5CAE9;
+    text-decoration: none;
+ }
+ nav li a:hover{
+	 color: #FF00FF;
+	 transition: all 0.5s ease 0s; 
+	 
+ }
+ 
+ /* Styles for smaller screens */
+
+
+#app {
+    max-width: 800px;
+    margin: 0px auto;
+    background-color: #fff;
+    padding: 80px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    input[type="text"],
+    select,
+    #price-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-container label,
+.search-container input,
+.search-container select,
+.search-container button {
+    margin-bottom: 10px;
+}
+
+.search-container label {
+    flex: 1; /* Make labels take up equal width */
+    max-width: 100px; /* Limit label width */
+}
+
+.search-container input,
+.search-container select {
+    flex: 4; /* Make input and select take up more width */
+    max-width: 200px; /* Limit input and select width */
+}
+
+.search-container button {
+    flex: 1; /* Make the button take up equal width */
+    max-width: 100px; /* Limit button width */
+}
+
+.search-container input[type="text"],
+.search-container select {
+    width: calc(30% - 10px); /* Adjust the width as needed */
+    margin-bottom: 10px;
+}
+
+.search-container #price-input {
+    width: calc(30% - 10px);
+    margin-right: 10px;
+}
+
+.search-container button {
+    width: 100%; /* Full width for the button on smaller screens */
+}
+
+.part {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+}

@@ -1,0 +1,206 @@
+/* === LOCK SCREEN OVERLAY =================================== */
+/* This sits ON TOP of your page background and blurs it */
+.lock-overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;           /* cover full viewport including area behind navbar */
+    bottom: 0;
+    z-index: 5;
+
+    /* dark + blur everything behind it */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px) brightness(0.6);
+    -webkit-backdrop-filter: blur(12px) brightness(0.6);
+
+    /* let clicks go "through" to the login form that sits above it */
+    pointer-events: none;
+}
+
+/* After login, JS adds .hidden so overlay disappears */
+.lock-overlay.hidden {
+    display: none;
+}
+
+/* === WRAPPER AROUND THE LOGIN / REGISTER CARD =============== */
+.pm-wrapper {
+    position: relative;
+    z-index: 10;                
+    max-width: 900px;
+    margin: 140px auto 4rem auto;
+    padding: 1rem;
+}
+
+/* The page title "Password Manager" */
+.pm-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+/* === THE CARD ITSELF ======================================== */
+.pm-card {
+    background: rgba(40, 40, 50, 0.6);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    color: #fff;
+
+    /* soft depth */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+
+    /* inner glass effect */
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
+}
+
+/* "Register / Login" row layout */
+.pm-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* Inputs (username + password) */
+.pm-input {
+    flex: 1 1 200px;
+    min-width: 160px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 4px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    color: #fff;
+    outline: none;
+}
+
+.pm-input:focus {
+    border-color: #4a6bff;
+    box-shadow: 0 0 0 3px rgba(74,107,255,0.4);
+}
+
+/* status text under the form ("Registered. Please login." etc.) */
+.pm-msg {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    min-height: 1em;
+    color: #90ee90;
+}
+
+/* === Buttons ================================================= */
+.pm-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    min-width: 80px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+}
+
+.pm-btn-green {
+    background: linear-gradient(135deg,#00a86b,#007a4d);
+}
+
+.pm-btn-blue {
+    background: linear-gradient(135deg,#4a6bff,#2a3a8f);
+}
+
+.pm-btn-red {
+    background: linear-gradient(135deg,#d72638,#8a0f1a);
+}
+
+/* === Vault layout (for your screenshots / grading proof) ==== */
+.pm-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.pm-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.pm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    color: #fff;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+}
+
+.pm-table thead {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    text-align: left;
+}
+
+.pm-table th,
+.pm-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.pm-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.pm-table input[type="password"] {
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+#pm-table button.copy,
+#pm-table button.del {
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    min-width: 60px;
+}
+
+#pm-table button.copy {
+    background: linear-gradient(135deg,#4a6bff,#2a3a8f);
+}
+
+#pm-table button.del {
+    background: linear-gradient(135deg,#d72638,#8a0f1a);
+}
+
+/* Mobile: stack the inputs/buttons vertically */
+@media (max-width: 600px) {
+    .pm-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pm-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
