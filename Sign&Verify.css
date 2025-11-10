@@ -1,0 +1,187 @@
+/* main page look */
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
+  margin: 0;
+  padding: 0;
+}
+/* dark background + light text */
+
+/* layout center content */
+.container1 {
+  width: 100%;
+  background: #1b1b1b;
+  padding: 10px 0;
+}
+/* top nav bar */
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  padding-left: 20px;
+}
+/* simple white link for logo */
+
+.shell {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+/* center main body */
+
+/* grid for two cards */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+/* side by side layout */
+
+/* card base look */
+.card {
+  background: #1b1b1b;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 8px #000;
+}
+/* dark boxes with small shadow */
+
+/* titles clean and centered */
+h1, h2 {
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+/* title spacing */
+
+/* small tag under title */
+.tag {
+  color: #00bfff;
+  font-size: 0.9em;
+}
+/* light blue label */
+
+/* row spacing */
+.row {
+  margin-bottom: 12px;
+}
+/* keeps space between inputs */
+
+/* note boxes or messages */
+.result-box {
+  background: #222;
+  color: #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  min-height: 60px;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* for logs and results */
+
+/* divider line */
+.divider {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 10px 0;
+}
+/* thin gray line */
+
+/* file input */
+.input-file {
+  color: #ccc;
+  width: 100%;
+}
+/* gray text input */
+
+/* all buttons */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+/* base button look */
+
+/* green button */
+.btn-green {
+  background: #28a745;
+}
+/* make keypair */
+
+/* blue button */
+.btn-blue {
+  background: #0078ff;
+}
+/* export keys */
+
+/* indigo button */
+.btn-indigo {
+  background: #6610f2;
+}
+/* sign button */
+
+/* purple button */
+.btn-purple {
+  background: #6f42c1;
+}
+/* verify button */
+
+/* button hover */
+.btn:hover {
+  opacity: 0.8;
+}
+/* small fade when hover */
+
+/* help card area */
+.help-card {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #1b1b1b;
+  border-radius: 10px;
+  padding: 15px;
+}
+/* bottom info block */
+
+/* toggle button */
+.help-toggle {
+  width: 100%;
+  background: #333;
+  color: #fff;
+  border: none;
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* collapsible header */
+
+/* help content */
+.help-content {
+  margin-top: 10px;
+  color: #ccc;
+  line-height: 1.5;
+}
+/* info text */
+
+/* small text in help */
+.help-note {
+  color: #999;
+  font-size: 0.9em;
+}
+/* extra note */
+
+/* small screens stack items */
+@media (max-width: 700px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  /* one column on phone */
+  .card {
+    margin-bottom: 15px;
+  }
+  /* small gap between cards */
+}

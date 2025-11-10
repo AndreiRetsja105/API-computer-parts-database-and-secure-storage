@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- basic setup -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign & Verify</title>
+
+  <!-- link style -->
+  <link rel="stylesheet" href="css/Sign&Verify.css">
+</head>
+<body>
+  <!-- top nav bar -->
+  <div class="container1">
+    <nav>
+      <div class="logo">
+        <a href="index.html">Computer Components API</a>
+        <!-- click logo to go home -->
+      </div>
+    </nav>
+  </div>
+
+  <!-- main content -->
+  <main class="shell">
+    <h1 class="page-title">Document Signing <span class="tag">ECDSA P-256 / SHA-256</span></h1>
+    <!-- title line shows page name and algo -->
+
+    <div class="grid-2">
+      <!-- left side handles key creation -->
+      <section class="card">
+        <h2 class="card-title">Generate / Import Keys</h2>
+
+        <div class="row actions">
+          <button id="gen" class="btn btn-green">Generate keypair</button>
+          <!-- makes both public and private keys -->
+          <button id="export" class="btn btn-blue">Export keys</button>
+          <!-- saves keys to files -->
+        </div>
+
+        <div class="row">
+          <label class="label">Import Private Key .pk8</label>
+          <input type="file" id="privIn" accept=".pk8" class="input input-file">
+          <!-- choose private key file -->
+        </div>
+
+        <div class="row">
+          <label class="label">Import Public Key .spki</label>
+          <input type="file" id="pubIn" accept=".spki" class="input input-file">
+          <!-- choose public key file -->
+        </div>
+
+        <div id="sv-log" class="result-box" aria-live="polite"></div>
+        <!-- log output -->
+      </section>
+
+      <!-- right side handles sign and verify -->
+      <section class="card">
+        <h2 class="card-title">Sign & Verify</h2>
+
+        <div class="row">
+          <label class="label">File to sign</label>
+          <input type="file" id="fileToSign" class="input input-file">
+          <!-- pick file to sign -->
+          <button id="sign" class="btn btn-indigo">Sign</button>
+          <!-- click to make signature -->
+        </div>
+
+        <hr class="divider">
+        <!-- simple line split -->
+
+        <div class="row">
+          <label class="label">File to verify</label>
+          <input type="file" id="fileToVerify" class="input input-file">
+          <!-- choose file to check -->
+        </div>
+
+        <div class="row">
+          <label class="label">Signature file .sig</label>
+          <input type="file" id="sigFile" accept=".sig" class="input input-file">
+          <!-- load .sig file -->
+        </div>
+
+        <div class="row actions">
+          <button id="verify" class="btn btn-purple">Verify</button>
+          <!-- checks if file + sig match -->
+        </div>
+
+        <div id="verifyOut" class="result-box"></div>
+        <!-- shows result good/bad -->
+      </section>
+    </div>
+  </main>
+
+  <!-- info section -->
+  <section class="help-card" aria-labelledby="how-title">
+    <button class="help-toggle" aria-expanded="false" aria-controls="how-content" id="how-title">
+      How do Sign and Verify work
+      <span class="chev" aria-hidden="true">▼</span>
+      <!-- small down arrow -->
+    </button>
+
+    <div id="how-content" class="help-content" hidden>
+      <!-- starts hidden until clicked -->
+      <p><strong>Goal:</strong> Prove who made a file and that it did not change.</p>
+
+      <h4>Sign</h4>
+      <ul>
+        <li>You pick a file and sign it with your private key.</li>
+        <li>The app makes a small signature file.</li>
+      </ul>
+
+      <h4>Verify</h4>
+      <ul>
+        <li>Use public key and the signature to check a file.</li>
+        <li>If one byte changes, it fails.</li>
+      </ul>
+
+      <h4>Why use it</h4>
+      <ul>
+        <li>Shows who signed.</li>
+        <li>Shows file not changed.</li>
+      </ul>
+
+      <p class="help-note">Keys stay in browser. Signing is not encryption.</p>
+    </div>
+  </section>
+
+  <!-- main script -->
+  <script type="module">
+  // import helpers (keep path)
+  import {
+    enc, b64, ub64,
+    genEcdsaKeyPair, ecdsaSign, ecdsaVerify,
+    exportSpki, exportPkcs8,
+    importSpki, importPkcs8,
+    download
+  } from './js/crypto-utils.js';
+
+  // keep keys here
+  let priv = null;
+  let pub = null;
+
+  // write text to log box
+  const log = msg => {
+    const el = document.getElementById('sv-log');
+    el.textContent += '\n' + msg;
+  };
+
+  // make keypair
+  document.getElementById('gen').addEventListener('click', async () => {
+    ({ publicKey: pub, privateKey: priv } = await genEcdsaKeyPair());
+    log('Made keypair');
+  });
+
+  // save both keys
+  document.getElementById('export').addEventListener('click', async () => {
+    if (!priv || !pub) { log('No keys'); return; }
+    const spki = await exportSpki(pub);
+    download('public.spki', spki);
+    const pk8 = await exportPkcs8(priv);
+    download('private.pk8', pk8);
+    log('Saved keys');
+  });
+
+  // load private key
+  document.getElementById('privIn').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    const buf = new Uint8Array(await f.arrayBuffer());
+    priv = await importPkcs8(buf);
+    log('Loaded private key');
+  });
+
+  // load public key
+  document.getElementById('pubIn').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    const buf = new Uint8Array(await f.arrayBuffer());
+    pub = await importSpki(buf);
+    log('Loaded public key');
+  });
+
+  // sign file
+  document.getElementById('sign').addEventListener('click', async () => {
+    if (!priv) { alert('Make or load private key first'); return; }
+    const f = document.getElementById('fileToSign').files[0];
+    if (!f) { alert('Pick a file'); return; }
+    const data = new Uint8Array(await f.arrayBuffer());
+    const sig = await ecdsaSign(priv, data);
+    download(f.name + '.sig', sig);
+    log('Signed ' + f.name);
+  });
+
+  // verify file
+  document.getElementById('verify').addEventListener('click', async () => {
+    if (!pub) { alert('Load public key first'); return; }
+    const f = document.getElementById('fileToVerify').files[0];
+    const sf = document.getElementById('sigFile').files[0];
+    if (!f || !sf) { alert('Pick file and signature'); return; }
+    const data = new Uint8Array(await f.arrayBuffer());
+    const sig = new Uint8Array(await sf.arrayBuffer());
+    const ok = await ecdsaVerify(pub, data, sig);
+    document.getElementById('verifyOut').textContent = ok ? '✅ Signature good' : '❌ Signature bad';
+  });
+
+  // help open/close
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.help-toggle');
+    if (!btn) return;
+    const box = document.getElementById(btn.getAttribute('aria-controls'));
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    box.hidden = open;
+  });
+</script>
+
+</body>
+</html>
