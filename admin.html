@@ -1,0 +1,153 @@
+<!-- FILE: admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Panel Secure App</title>
+<link rel="stylesheet" href="css/AdminPanel.css">
+</head>
+<body>
+	<nav><!-- Nav is have a fix position, the style is the same everywhere -->
+		<div class="logo">
+		  <a href="index.html">Computer Components API</a>  <!-- Logo whic is bring user to the main page -->
+		</div>
+	</nav>
+<main>
+  <!-- Connection settings -->
+  <section class="card">
+    <div class="row">
+      <div>
+        <div class="muted">API Base URL</div>
+        <input id="apiBase" type="url" placeholder="https://your-api.onrender.com" size="40">
+      </div>
+      <div>
+        <div class="muted">Admin API Key</div>
+        <input id="adminKey" type="password" placeholder="••••••••••••••••••••••" size="34">
+      </div>
+      <div style="align-self:end; margin-bottom:-2px;">
+        <button id="saveCfg" class="btn btn-green">Save</button>
+        <button id="refresh" class="btn btn-blue">Refresh Users</button>
+      </div>
+    </div>
+    <div class="muted" style="margin-top:8px">Values are kept in sessionStorage (page tab memory).</div>
+  </section>
+
+  <!-- Users table -->
+  <section class="card">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22%">Username</th>
+          <th style="width:30%">Email</th>
+          <th style="width:15%">Activated</th>
+          <th class="right" style="width:33%">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="usersBody">
+        <tr><td colspan="4" class="muted">Click “Refresh Users”.</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+  // --- config helpers ---
+  const $ = s => document.querySelector(s);
+  const cfg = {
+    get api(){ return sessionStorage.getItem("admin_api_base") || ""; },
+    set api(v){ sessionStorage.setItem("admin_api_base", v); },
+    get key(){ return sessionStorage.getItem("admin_key") || ""; },
+    set key(v){ sessionStorage.setItem("admin_key", v); },
+  };
+
+  // populate inputs on load
+  $("#apiBase").value = cfg.api;
+  $("#adminKey").value = cfg.key;
+
+  $("#saveCfg").addEventListener("click", ()=>{
+    cfg.api = $("#apiBase").value.trim();
+    cfg.key = $("#adminKey").value.trim();
+    alert("Saved. Now click Refresh Users.");
+  });
+
+  $("#refresh").addEventListener("click", listUsers);
+
+  async function listUsers(){
+    const body = $("#usersBody");
+    if(!cfg.api || !cfg.key){
+      body.innerHTML = `<tr><td colspan="4" class="muted">Set API Base URL and Admin Key first.</td></tr>`;
+      return;
+    }
+    body.innerHTML = `<tr><td colspan="4" class="muted">Loading…</td></tr>`;
+    try{
+      const r = await fetch(`${cfg.api}/admin/users`, { headers: { "x-admin-key": cfg.key } });
+      if(!r.ok){ throw new Error(`${r.status} ${r.statusText}`); }
+      const data = await r.json(); // { users: [...] }
+      renderUsers(data.users || []);
+    }catch(e){
+      body.innerHTML = `<tr><td colspan="4" class="muted">Error: ${e.message}</td></tr>`;
+    }
+  }
+
+  function renderUsers(users){
+    const body = $("#usersBody");
+    if(!users.length){
+      body.innerHTML = `<tr><td colspan="4" class="muted">No users yet.</td></tr>`;
+      return;
+    }
+    body.innerHTML = "";
+    for(const u of users){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(u.username)}</td>
+        <td>${escapeHtml(u.email || "")}</td>
+        <td><span class="pill ${u.isActivated?'on':'off'}">${u.isActivated?'Yes':'No'}</span></td>
+        <td class="right">
+          <button class="btn btn-blue" data-act="resend" data-user="${u.username}">Resend activation</button>
+          <button class="btn btn-red" data-act="del" data-user="${u.username}">Delete</button>
+        </td>
+      `;
+      body.appendChild(tr);
+    }
+  }
+
+  // delegate actions
+  $("#usersBody").addEventListener("click", async (e)=>{
+    const btn = e.target.closest("button[data-act]");
+    if(!btn) return;
+    const act = btn.dataset.act;
+    const username = btn.dataset.user;
+
+    if(act === "del"){
+      if(!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+      try{
+        const r = await fetch(`${cfg.api}/admin/users/${encodeURIComponent(username)}`, {
+          method:"DELETE", headers:{ "x-admin-key": cfg.key }
+        });
+        const j = await r.json();
+        if(!r.ok) throw new Error(j.error || "Delete failed");
+        alert(`Deleted ${username}`);
+        listUsers();
+      }catch(err){ alert(err.message); }
+    }
+
+    if(act === "resend"){
+      try{
+        const r = await fetch(`${cfg.api}/admin/resend-activation`, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json", "x-admin-key": cfg.key },
+          body: JSON.stringify({ username })
+        });
+        const j = await r.json();
+        if(!r.ok) throw new Error(j.error || "Resend failed");
+        alert(j.message || "Activation email resent");
+      }catch(err){ alert(err.message); }
+    }
+  });
+
+  // small HTML escape
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+</body>
+</html>
