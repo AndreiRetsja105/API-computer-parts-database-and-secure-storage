@@ -1,0 +1,25 @@
+    /* same grid, but tighter and aligned on the bottom */
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;       /* ensures all items sit perfectly on one line */
+  flex-wrap: wrap;
+  margin: 12px 0 24px;
+}
+
+.fcol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.fcol label {
+  color: #2a3a8f;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+:root { --ctl-h: 44px; }
+
