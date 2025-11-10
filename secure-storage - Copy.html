@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Storage</title>
+  <link rel="stylesheet" href="css/secure.css" />
+</head>
+<body>
+  <!-- Nav is have a fix position, the style is the same everywhere -->
+  <nav class="topnav">
+    <div class="logo"><a href="index.html">Computer Components API</a></div>
+ <!--<ul>
+      <li><a href="./sign-verify.html">Sign/Verify</a></li>
+      <li><a href="ComputerComponentLIst.html">Computer Component List</a></li>
+      <li><a href="ChartForJason.html">Chart Bar chart</a></li>
+    </ul> -->
+  </nav>
+    <!-- Main content start here -->
+  <main class="secure-main">
+    <header class="page-header">
+      <h1>Secure Cloud Storage</h1>
+      <p class="subtitle">
+        Client-side encryption & decryption — your files never leave the browser unencrypted.
+      </p>
+    </header>
+
+    <div class="tool-grid">
+      <!-- encryption Card -->
+      <section class="tool-card">
+        <h2>Encryption <span class="badge">Secure</span></h2>
+
+        <div class="field">
+          <label for="ss-password">Password</label>
+          <input type="password" id="ss-password" placeholder="Enter a strong password" />
+          <small>create your password with symbols and numbers</small>
+        </div>
+
+        <div class="field">
+          <label for="ss-file">Select file your file to encrypt</label>
+          <input type="file" id="ss-file" />
+        </div>
+
+        <div class="actions two">
+          <button id="ss-encrypt-download" class="btn btn-green">Encrypt and Download</button>
+          <button id="ss-encrypt-upload" class="btn btn-blue">Encrypt and Upload</button>
+        </div>
+
+        <div id="ss-log" class="result-box" aria-live="polite"></div>
+      </section>
+
+      <!-- decription Card -->
+      <section class="tool-card">
+        <h2>Decryption <span class="badge">Secure</span></h2>
+
+        <div class="field">
+          <label for="ss-password-dec">Password</label>
+          <input type="password" id="ss-password-dec" placeholder="Password used at encryption" />
+          <small>type your password with symbols and numbers</small>
+        </div>
+
+        <div class="field">
+          <label for="ss-secure">Select a file from your local</label>
+          <input type="file" id="ss-secure" accept=".secure" />
+        </div>
+
+        <div class="field">
+          <label for="ss-remote-id">Or get it from the server by ID.</label>
+          <input type="text" id="ss-remote-id" placeholder="Paste ID you received after upload…" />
+          <small>We’ll download the encrypted blob and decrypt it locally.</small>
+        </div>
+
+        <div class="actions two">
+          <button id="ss-decrypt-local" class="btn btn-green">Decryption Local</button>
+          <button id="ss-fetch-decrypt" class="btn btn-blue">Fetch and Decrypt</button>
+        </div>
+
+        <div id="ss-output" class="result-box"></div>
+      </section>
+    </div>
+    
+      <!-- How it works ///collapsible sectiopn // unwrap list -->
+    <section class="help-card" aria-labelledby="how-title">  
+      <button class="help-toggle" aria-expanded="false" aria-controls="how-content" id="how-title">
+        How do “Secure Storage” work?
+        <span class="chev" aria-hidden="true">▼</span>
+      </button>
+      
+      <div id="how-content" class="help-content" hidden>
+        <p><strong>Goal:</strong> Protect your files by encrypting them in your browser before downloading or saving them, so no one else can read them without your password.</p>
+
+        <h4>1.Encryption Process</h4>
+        <ul>
+          <li>Select a file and enter a password.</li>
+          <li>The browser uses your password to generate secure encryption keys using the <strong>PBKDF2</strong> and <strong>SHA-256</strong> algorithms.</li>
+          <li>Your file is encrypted locally using the <strong>AES GCM</strong> (Advanced Encryption Standard — Galois/Counter Mode) algorithm.</li>
+          <li>For each encryption, a random <strong>IV (Initialization Vector)</strong> is generated to ensure uniqueness and prevent pattern reuse.</li>
+          <li>The encrypted data, IV, and checksum (<strong>HMAC</strong> for integrity) are packed into the <code>.secure</code> file.</li>   
+          <li>You can <strong>download</strong> this file or <strong>upload</strong> it to the server.</strong> The server will keep it secure, but will never see your password or the encrypted file. Decrypted file.</li>
+        </ul>
+
+        <h4>2.Decryption how it works</h4>
+        <ul>
+          <li>Select the <code>Secure</code> file and enter the same password which you create  for encryption.</li>   
+          <li>The system will regenerate the same AES key and using your password and the saved salt.</li>
+          <li>Verify the <strong>HMAC</strong>need to ensure at the file has not been modified or corrupted.</li>
+          <li>If the verification is successful,the AES-GCM decryption will restores the original file as was before encryption.</li>
+          <li>The decrypted file will proceed and automatically will by downloaded to your device.</li>
+        </ul>
+
+        <h4>3.How works principles of security</h4>
+        <ul>
+          <li><strong>Confidentiality:</strong> Files are will be encrypted by using the AES 256 algorithm and they can be only decrypt with password which you create when encrypted.</li>
+          <li><strong>Integrity:</strong> HMAC guarantees that if there were any changes in the file and even one byte of the data was changed, this will lead to a decryption error.</li>
+          <li><strong>Confidentiality:</strong> All process is happens in your browser. No any data or passwords are not transmitted in cleartext to the server.</li>
+        </ul>
+
+        <p class="help-note">
+          <strong>Summary:</strong> Secure Storage protects your files by combining modern cryptography 
+            <strong>(PBKDF2, AES-GCM, HMAC)</strong>and a browser-based security API. Only you, the password owner, can decrypt what is encrypted.
+        </p>
+      </div>
+    </section>
+
+  </main>
+  <script type="module">
+
+      /// import helpers from crypto-utils.js which is in the js folder     
+    import {
+      b64, ub64, enc,   ///  base 64 bytes helpers 
+      randomBytes, deriveEncAndMac,  /// salt generator ans random key 
+      aesGcmEncryptBytes, aesGcmDecryptBytes,  /// aes of dicriptyon and encryption 
+      exportRawKey, importRawAesKey,            /// 
+      concatBytes, hmac, hmacVerify, download
+    } from './js/crypto-utils.js';
+
+    // deployed API on the srver ///Render
+    const API_BASE = "https://pm-server.onrender.com";
+
+    const logEl   = document.getElementById('ss-log');  ///  Logs output for encryption 
+    const outEl   = document.getElementById('ss-output');  ///  Logs output for decryption  
+
+    const pwEnc   = document.getElementById('ss-password');  ///  encryption password input 
+    const fileEnc = document.getElementById('ss-file');  //  encriptyon  File selector 
+
+    const pwDec   = document.getElementById('ss-password-dec');  // decrytion pasword input 
+    const fileDec = document.getElementById('ss-secure');  ///  secure file selector 
+    const idDec   = document.getElementById('ss-remote-id');  //  File ID input for remout 
+    /// LOgs messages to encryption and decryption  
+    function log(msg) {
+      logEl.textContent += (logEl.textContent ? "\n" : "") + msg;
+      logEl.scrollTop = logEl.scrollHeight;   ///auto scrol log line 
+    }
+    function out(msg) { outEl.textContent = msg; }  
+
+    // Build a .secure package (JSON string, encoded to bytes)
+    async function buildSecurePackage(password, file) {
+      const salt = randomBytes(16);   ////  Genertate random salt //PBKDF2
+      const { aesKey, macKey } = await deriveEncAndMac(password, salt);  // 
+
+      // Generate a per-file key and encrypt the file
+      const fileKey    = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+      const rawFileKey = await exportRawKey(fileKey);
+
+      const plain = new Uint8Array(await file.arrayBuffer());
+      const { iv, ciphertext } = await aesGcmEncryptBytes(plain, fileKey);
+
+      // Envelope-encrypt the file key with the password-derived AES key
+      const encKey = await aesGcmEncryptBytes(rawFileKey, aesKey);
+
+      // HMAC all critical fields
+      const toMac = concatBytes(enc.encode('v1'), salt, iv, ciphertext, encKey.iv, encKey.ciphertext);
+      const tag   = await hmac(macKey, toMac);
+
+      // What we store/send is a JSON string of this object
+      const pkg = {
+        v: '1',
+        name: file.name,
+        mime: file.type,
+        salt: b64(salt),
+        iv: b64(iv),
+        ciphertext: b64(ciphertext),
+        key_iv: b64(encKey.iv),
+        key_ct: b64(encKey.ciphertext),
+        hmac: b64(tag)
+      };
+
+      const bytes = enc.encode(JSON.stringify(pkg)); // Uint8Array of the .secure file
+      return { bytes, filename: `${file.name}.secure` };
+    }
+
+    //// Encrypt and Download workin for local only 
+    //// creating the secure file and download it localy  
+    document.getElementById('ss-encrypt-download').addEventListener('click', async () => {
+      const pw   = pwEnc.value;
+      const file = fileEnc.files[0];
+      if (!pw || !file) { log('need Password and file required.'); return; }
+
+      try {
+        const { bytes, filename } = await buildSecurePackage(pw, file);  /// build the secure package Json file wich is encrypted  
+        download(filename, bytes);    /// donwload encrypt file local
+        log(`Encrypted ${file.name} → ${filename} (your file ready and downloaded)`); /// log file when your file is proceed and downloaded
+      } catch (e) {
+        log(`Error: ${e.message}`);  /// if encryption was not processed
+      }
+    });
+
+    ////Encryption and Upload and POST JSON to the files
+    ////then send this encrypted base64 secure Jason file to the API 
+    document.getElementById('ss-encrypt-upload').addEventListener('click', async () => {  
+      const pw   = pwEnc.value;
+      const file = fileEnc.files[0];
+      if (!pw || !file) { log('Password and file required.'); return; }
+
+      try {
+        const { bytes } = await buildSecurePackage(pw, file);
+
+        // Use a helper base64 the secure bytes and post blob to backend 
+        const resp = await fetch(`${API_BASE}/files`, {   
+          method: 'POST',          ///post method 
+          headers: { 'Content-Type': 'application/json' },    ///     
+          body: JSON.stringify({         ////   
+            blobBase64: b64(bytes),  //// converting the bytes to base64 string
+            name: file.name,     
+            type: file.type
+          })
+        });
+
+        ///  cheking status and respons 
+        if (!resp.ok) throw new Error(`Upload failed try agian (${resp.status})`);
+        const { id } = await resp.json();   /// server response / get file id from serve
+
+        idDec.value = id; // Automatic fill field for decryption 
+        log(`Uploaded. ID: ${id}`);     
+        log(`Fetch URL: ${API_BASE}/files/${id}`);
+      } catch (e) {
+        log(`Upload error: ${e.message}`);    ///// log, if any error is come out 
+      }
+    });
+
+    ////decryption a secure Json Text string
+    /// Reverses the encryption process to restore the original file.
+    /// Checks the HMAC to ensure integrity
+    /// Decryption the AES file key
+    /// Decryption the file contents
+    /// Download the restored file
+    async function decryptFromText(password, text) {
+       // Parse the Json structure from the protected file
+      const pkg  = JSON.parse(text);
+      const salt = ub64(pkg.salt),
+            iv   = ub64(pkg.iv),
+            ct   = ub64(pkg.ciphertext),
+            kiv  = ub64(pkg.key_iv),
+            kct  = ub64(pkg.key_ct);
+
+      // Regenerate AES/HMAC keys using salt and password
+      const { aesKey, macKey } = await deriveEncAndMac(password, salt);
+
+      // it's check the integrity of the HMAC before decrypting
+      const toMac = concatBytes(enc.encode('v1'), salt, iv, ct, kiv, kct);
+      const ok    = await hmacVerify(macKey, toMac, ub64(pkg.hmac));
+      if (!ok) throw new Error('Integrity check failed (incorrect password or file was modified)');
+
+      // Decryption the file's AES key using the AES key obtained from the password
+      const rawFileKey = await aesGcmDecryptBytes(kiv, kct, aesKey);
+      const fileKey    = await importRawAesKey(rawFileKey);
+      // Decrypting the file contents using the decrypt AES file key
+      const pt         = await aesGcmDecryptBytes(iv, ct, fileKey);
+      
+      // Create a downloadable Blob from the decrypted bytes
+      const blob = new Blob([pt], { type: pkg.mime || 'application/octet-stream' });
+      const url  = URL.createObjectURL(blob);
+      
+      // Automatically started browser download
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = pkg.name || 'decrypted.bin';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      // Display a status message
+      out(`Decrypted: ${pkg.name || 'file'}`);
+    }
+    
+    // Decrypt a secure local file
+    ///Reads the user selected protected file and decrypts it
+    document.getElementById('ss-decrypt-local').addEventListener('click', async () => {
+      const pw = pwDec.value;
+      const f  = fileDec.files[0];
+      if (!pw || !f) { alert('Password and secure file is required'); return; }
+
+      try {
+        // Read the file content as text and decrypt on it
+        const text = await f.text();
+        await decryptFromText(pw, text);
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+
+    ///Receive and Description
+    //Downloads encrypted secure Json from the server and decrypts it locally.
+    //Extract and decrypt, and GET files/:id
+    document.getElementById('ss-fetch-decrypt').addEventListener('click', async () => {
+      const pw = pwDec.value;
+      const id = (idDec.value || '').trim();
+      if (!pw || !id) { alert('Your password and ID is required'); return; }
+
+      try {
+        // Extract secure JSON from the API
+        const resp = await fetch(`${API_BASE}/files/${encodeURIComponent(id)}`);
+        if (!resp.ok) throw new Error('server has some issue your file could fetch');
+        const text = await resp.text(); //the server returns the stored secure Json string
+
+        //Decrypt the downloaded file
+        await decryptFromText(pw, text);
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+
+    //Accessible unwrapper 
+    //Improved accessibility through attribute updates.
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.help-toggle');
+      if (!btn) return;
+      const target = document.getElementById(btn.getAttribute('aria-controls'));
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      
+      // Toggle for show and hide content accordingly.
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if (expanded) { target.hidden = true; } else { target.hidden = false; }// Hide if expanded, show if collapsed
+    });
+  </script>
+</body>
+</html>

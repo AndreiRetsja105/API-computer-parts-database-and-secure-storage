@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Computer Parts API</title>
+  <link rel="stylesheet" href="css/style3.css"/><!-- style of the page   -->
+  <link rel="stylesheet" href="css/ComputerComponentLIst.css"/> <!--  style of the page -->
+<body>
+    <!-- Nav is have a fix position, the style is the same everywhere -->
+  <nav>
+    <div class="logo">
+      <a href="index.html">Computer Components API</a>    <!-- Logo whic is bring user to the main page -->
+    </div>
+    <ul>  <!-- tabs inside the navbar -->
+          <!-- We keepi that XML tab for the future use, we want to add function at user can have access to export and import XML and all changes will be provided in to the Json page. Also all this proces will by provided by encrypted and decrypted methods/functions.   --> 
+      <li><a href="data/data.xml">XML</a></li>   
+    </ul>
+  </nav>
+          <!--main content start here -->
+  <main>
+    <div id="app">
+      <h1>Computer Parts List</h1>
+
+      <!--Organized filter row -->
+    <div class="filter-bar">
+        <div class="fcol">
+            <label for="type-input">Type</label>  <!-- text field  -->
+            <input type="text" id="type-input" placeholder="GPU or CPU"> <!-- text field type  -->
+        </div>
+
+        <div class="fcol">
+            <label for="manufacturer-input">Manufacturer</label>  
+            <input type="text" id="manufacturer-input" placeholder="NVIDIA or AMD">  <!-- text field manufacture -->
+        </div>
+        
+        <div class="fcol"> <!-- Combo box whit price start here -->
+            <label for="price-input">Price</label> 
+            <select id="price-input">   <!-- Dropdown list of Combo box, with the price -->
+            <option value="">Any Price</option>
+            <option value="0-100">0 – 100</option>
+            <option value="100-250">100 – 250</option>
+            <option value="250-500">250 – 500</option>
+            <option value="500-750">500 – 750</option>
+            <option value="750-1000">750 – 1000</option>
+            </select>
+        </div>
+
+        <button class="btn-primary" onclick="performSearch()">Search</button><!-- Search button/filtering-->
+        </div>
+
+      <div id="computer-parts-info-json"></div> <!-- JSON output -->
+      <div id="computer-parts-info-xml"></div>  <!-- xml output -->
+    </div>
+  </main>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script> <!-- library for handling data visualization -->
+  <script src="js/script.js"></script>    <!-- script.js from folder js // fetching // filtering /// displaying data -->
+</body>
+</html>
