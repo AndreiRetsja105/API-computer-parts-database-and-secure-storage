@@ -1,187 +1,327 @@
-/* main page look */
-body {
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #eee;
-  margin: 0;
-  padding: 0;
-}
-/* dark background + light text */
-
-/* layout center content */
-.container1 {
-  width: 100%;
-  background: #1b1b1b;
-  padding: 10px 0;
-}
-/* top nav bar */
-
-.logo a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.2em;
-  padding-left: 20px;
-}
-/* simple white link for logo */
+/* ---- Page shell ------------------ */
+/* layout container that centers the main content area and also applies default text color */
 
 .shell {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+  max-width: 1200px;          /* limit width of the page*/
+  margin: 120px auto 4rem;    /* Center page, add top and bottom spacing */
+  padding: 0 20px;             /* horizontal pad.*/
+  color: #e9f0ff;            /*  text color  default*/
 }
-/* center main body */
 
-/* grid for two cards */
+
+/*heading style */
+.page-title {
+  font-size: 2rem;        /* large font size for main   */                 
+  font-weight: 700;      /* bold text */
+  margin: 0 0 1rem 0;             /* botom space */
+  text-shadow: 0 3px 10px rgba(0,0,0,.7);     /* glowing shadow */
+}
+
+.tag {
+  display: inline-block;
+  margin-left: .5rem;
+  padding: 2px 8px;
+  font-size: .8rem;
+  border-radius: 999px;
+  color: #cfe4ff;
+  background: rgba(50,100,180,.25);
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+/* ======= Grid / Cards ======= */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 22px;
 }
-/* side by side layout */
 
-/* card base look */
+@media (max-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
 .card {
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 8px #000;
+  background: rgba(22, 34, 46, 0.55);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.65);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
 }
-/* dark boxes with small shadow */
 
-/* titles clean and centered */
-h1, h2 {
-  text-align: center;
-  margin: 0 0 10px 0;
+.card-title {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
-/* title spacing */
 
-/* small tag under title */
-.tag {
-  color: #00bfff;
-  font-size: 0.9em;
-}
-/* light blue label */
-
-/* row spacing */
-.row {
-  margin-bottom: 12px;
-}
-/* keeps space between inputs */
-
-/* note boxes or messages */
-.result-box {
-  background: #222;
-  color: #ccc;
-  padding: 10px;
-  border-radius: 6px;
-  min-height: 60px;
-  font-family: monospace;
-  white-space: pre-wrap;
-}
-/* for logs and results */
-
-/* divider line */
 .divider {
-  border: none;
-  border-top: 1px solid #333;
-  margin: 10px 0;
+  height: 1px;
+  border: 0;
+  margin: 18px 0;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.02)
+  );
 }
-/* thin gray line */
 
-/* file input */
-.input-file {
-  color: #ccc;
+/* ======= Form rows & labels ======= */
+.row { margin: 12px 0; }
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: .9rem;
+  color: #cfe4ff;
+  opacity: .9;
+}
+
+/* ======= Inputs (text/file) ======= */
+.input {
   width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(8,16,24,.4);
+  color: #e9f0ff;
+  outline: none;
+  transition: box-shadow .2s, border-color .2s;
+  box-sizing: border-box;
 }
-/* gray text input */
 
-/* all buttons */
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
+.input:focus {
+  border-color: rgba(90,140,255,.65);
+  box-shadow: 0 0 0 3px rgba(74,107,255,.28);
+}
+
+.input-file {
+  padding: 10px 12px;
   cursor: pointer;
-  transition: 0.2s;
+  color-scheme: dark; /* makes native file input fit dark UI better */
 }
-/* base button look */
 
-/* green button */
-.btn-green {
-  background: #28a745;
-}
-/* make keypair */
+/* ======= Buttons ======= */
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-/* blue button */
-.btn-blue {
-  background: #0078ff;
-}
-/* export keys */
-
-/* indigo button */
-.btn-indigo {
-  background: #6610f2;
-}
-/* sign button */
-
-/* purple button */
-.btn-purple {
-  background: #6f42c1;
-}
-/* verify button */
-
-/* button hover */
-.btn:hover {
-  opacity: 0.8;
-}
-/* small fade when hover */
-
-/* help card area */
-.help-card {
-  max-width: 900px;
-  margin: 20px auto;
-  background: #1b1b1b;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-width: 120px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #fff;
+  border: 0;
   border-radius: 10px;
-  padding: 15px;
+  cursor: pointer;
+  box-shadow: 0 14px 32px rgba(0,0,0,.55);
+  transition: transform .06s ease, filter .15s ease;
 }
-/* bottom info block */
 
-/* toggle button */
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+
+.btn-green { background: linear-gradient(135deg,#00a86b,#007a4d); }
+.btn-blue  { background: linear-gradient(135deg,#4a6bff,#2a3a8f); }
+.btn-indigo{ background: linear-gradient(135deg,#6e7bff,#3941a7); }
+.btn-purple{ background: linear-gradient(135deg,#9b6bff,#5b2fb3); }
+
+/* ======= Result boxes (logs / outputs) ======= */
+.result-box{
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 14px;
+  min-height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(8,16,24,.35);
+  color: #dfe8ff;
+  font: 0.95rem/1.4 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-shadow: inset 0 0 0 9999px rgba(0,0,0,.06);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  line-height: 75px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000; /* stays above everything */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+nav .logo a {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav .logo a:hover {
+  color: #FF00FF;
+  transition: all 0.3s ease;
+}
+
+nav ul {
+	float: right;
+}
+
+nav li {
+	 display: inline-block;
+	 list-style: none;
+}
+ 
+nav li a {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    text-transform: uppercase;
+    padding: 0px 15px; /* Adjust padding for smaller screens */
+    color: #C5CAE9;
+    text-decoration: none;
+}
+
+nav li a:hover{
+	 color: #FF00FF;
+	 transition: all 0.5s ease 0s; 
+	 
+}
+
+/* Page background */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background-image: url("../images/background.gif");  /* correct relative path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+}
+
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15); /* was 0.4 */
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/* help card css*/
+
+/* === Inline tooltips for buttons ========================= */
+.btn[data-tip] {
+  position: relative;
+}
+
+.btn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 8px 10px;
+  color: #fff;
+  background: rgba(0,0,0,.85);
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+  transform-origin: bottom center;
+}
+
+.btn[data-tip]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0,0,0,.85);
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.btn[data-tip]:hover::after,
+.btn[data-tip]:hover::before,
+.btn[data-tip]:focus-visible::after,
+.btn[data-tip]:focus-visible::before {
+  opacity: 1;
+}
+
+/* ------- How it works collapsible card -------*/
+.help-card {
+  max-width: 1100px;
+  margin: 24px auto 60px;
+  padding: 0;
+  border-radius: 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  color: #eaf0ff;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+}
+
 .help-toggle {
   width: 100%;
-  background: #333;
-  color: #fff;
-  border: none;
   text-align: left;
-  padding: 10px;
-  border-radius: 6px;
+  background: transparent;
+  border: 0;
+  color: #eaf0ff;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 16px 18px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-/* collapsible header */
 
-/* help content */
+.help-toggle .chev {
+  margin-left: auto;
+  transition: transform .2s ease;
+}
+
+.help-toggle[aria-expanded="true"] .chev {
+  transform: rotate(180deg);
+}
+
 .help-content {
-  margin-top: 10px;
-  color: #ccc;
-  line-height: 1.5;
+  padding: 0 18px 18px;
+  border-top: 1px solid rgba(255,255,255,.12);
 }
-/* info text */
 
-/* small text in help */
+.help-content h4 {
+  margin: 12px 0 4px;
+  font-size: 1rem;
+  color: #cfe2ff;
+}
+
 .help-note {
-  color: #999;
-  font-size: 0.9em;
-}
-/* extra note */
-
-/* small screens stack items */
-@media (max-width: 700px) {
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-  /* one column on phone */
-  .card {
-    margin-bottom: 15px;
-  }
-  /* small gap between cards */
+  margin-top: 8px;
+  font-size: .9rem;
+  color: #bcd0ff;
 }

@@ -23,3 +23,63 @@
 
 :root { --ctl-h: 44px; }
 
+.filter-bar input[type="text"],
+.filter-bar select {
+  height: var(--ctl-h);
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  color: #cfd8dc;
+  outline: none;
+  font-size: 15px;
+  line-height: var(--ctl-h); /* ensures vertical alignment matches button */
+  display: flex;
+  align-items: center;
+}
+
+.filter-bar input::placeholder {
+  color: #cfd8dc;
+}
+
+.filter-bar select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" fill="white">\
+  <path d="M0 0l5 6 5-6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px;
+  padding-right: 34px;
+}
+
+/* Search button now perfectly matches input height */
+.btn-primary {
+  height: var(--ctl-h);
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4a6bff, #2a3a8f);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 720px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-primary {
+    width: 100%;
+  }
+}
+
+/* simple spacing for main content under fixed nav (if your nav is fixed) */
+main{padding-top:90px;}
