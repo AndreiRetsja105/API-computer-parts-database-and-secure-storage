@@ -1,0 +1,334 @@
+/* --- Secure Storage layout --- */
+/* Background + global text */
+:root {
+  --nav-bg1: rgba(0, 0, 0, 0.6);
+  --glass-bg: rgba(22, 29, 35, 0.65);
+  --glass-border: rgba(255,255,255,0.22);
+  --muted: #a8b3c1;
+  --text: #eaf1ff;
+  --green1: #00a86b;
+  --green2: #007a4d;
+  --blue1: #4a6bff;
+  --blue2: #2a3a8f;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+  background: #0b141a url("images/background.gif") center/cover fixed no-repeat;
+}
+
+/* Fixed top nav */
+.topnav {
+  position: fixed; inset: 0 0 auto 0; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  background-image: linear-gradient(var(--nav-bg1), var(--nav-bg2));
+  z-index: 1000;
+}
+
+.topnav .logo a {
+  color: #fff; text-decoration: none; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.topnav ul { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; }
+.topnav ul a { color: #C5CAE9; text-decoration: none; text-transform: uppercase; font-size: 14px; }
+.topnav ul a:hover { color: #FF00FF; }
+
+/* Main spacing below fixed nav */
+.secure-main { padding: 120px 24px 40px; max-width: 1200px; margin: 0 auto; }
+
+.page-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 32px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+.page-header .subtitle {
+  margin: 0 0 24px 0;
+  color: var(--muted);
+}
+
+/* Two-column grid */
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+@media (max-width: 900px) {
+  .tool-grid { grid-template-columns: 1fr; }
+}
+
+/* Glass cards */
+.tool-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-radius: 14px;
+  padding: 18px 20px 22px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.65);
+}
+
+.tool-card h2 {
+  margin: 0 0 12px 0;
+}
+.badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+}
+
+/* Form fields */
+.field { margin-top: 14px; }
+.field label { display: block; margin-bottom: 6px; color: #d9e6ff; }
+.field small { display: block; margin-top: 6px; color: var(--muted); }
+
+input[type="password"],
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  display: block;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #fff;
+  outline: none;
+}
+input:focus {
+  border-color: #6ea8ff;
+  box-shadow: 0 0 0 3px rgba(110,168,255,0.35);
+}
+
+/* Buttons */
+.actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+.actions.two .btn { flex: 1 1 auto; }
+
+.btn {
+  appearance: none; border: none; color: #fff; cursor: pointer;
+  padding: 12px 16px; border-radius: 10px; font-weight: 600;
+  box-shadow: 0 18px 42px rgba(0,0,0,0.55);
+}
+.btn-green { background: linear-gradient(135deg, var(--green1), var(--green2)); }
+.btn-blue  { background: linear-gradient(135deg, var(--blue1), var(--blue2)); }
+.btn:active { transform: translateY(1px); }
+
+/* Result areas */
+.result-box {
+  margin-top: 14px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed rgba(255,255,255,0.22);
+  background: rgba(0,0,0,0.35);
+  color: #d8e7ff;
+  overflow: auto;
+  max-height: 120px;
+}
+
+
+/* Make the page background always look crisp under the cards */
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background-image: url("../images/background.gif");  /* correct relative path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+}
+
+nav {
+    width: 100%;
+    height: 75px;
+    line-height: 75px;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+nav .logo a {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav .logo a:hover {
+  color: #FF00FF;
+  transition: all 0.3s ease;
+}
+
+nav ul {
+	float: right;
+}
+
+nav li {
+	 display: inline-block;
+	 list-style: none;
+}
+ 
+nav li a {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    text-transform: uppercase;
+    padding: 0px 15px; /* Adjust padding for smaller screens */
+    color: #C5CAE9;
+    text-decoration: none;
+}
+
+nav li a:hover{
+	 color: #FF00FF;
+	 transition: all 0.5s ease 0s; 
+	 
+}
+
+/* Setings for smaller screens */
+@media (max-width: 600px) {
+    #app {
+        padding: 10px; 
+    }
+    nav {
+        padding: 0px 10px; 
+    }
+    nav .logo p {
+        font-size: 18px; 
+    }
+    nav li a {
+        font-size: 12px; 
+        padding: 0px 10px; 
+    }
+    .container1 {
+        align-items: center;
+    }
+	 input[type="text"],
+    select,
+    #price-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
+
+
+/* help card css*/
+
+/* === Inline tooltips for buttons ========================= */
+.btn[data-tip] {
+  position: relative;
+}
+
+.btn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 8px 10px;
+  color: #fff;
+  background: rgba(0,0,0,.85);
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+  transform-origin: bottom center;
+}
+
+.btn[data-tip]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0,0,0,.85);
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.btn[data-tip]:hover::after,
+.btn[data-tip]:hover::before,
+.btn[data-tip]:focus-visible::after,
+.btn[data-tip]:focus-visible::before {
+  opacity: 1;
+}
+
+/* === “How it works” collapsible card ===================== */
+.help-card {
+  max-width: 1100px;
+  margin: 24px auto 60px;
+  padding: 0;
+  border-radius: 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  color: #eaf0ff;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+}
+
+.help-toggle {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: #eaf0ff;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 16px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-toggle .chev {
+  margin-left: auto;
+  transition: transform .2s ease;
+}
+
+.help-toggle[aria-expanded="true"] .chev {
+  transform: rotate(180deg);
+}
+
+.help-content {
+  padding: 0 18px 18px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.help-content h4 {
+  margin: 12px 0 4px;
+  font-size: 1rem;
+  color: #cfe2ff;
+}
+
+.help-note {
+  margin-top: 8px;
+  font-size: .9rem;
+  color: #bcd0ff;
+}
