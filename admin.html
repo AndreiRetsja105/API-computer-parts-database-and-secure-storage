@@ -1,4 +1,4 @@
-<!-- FILE: admin.html -->
+<!-- /// admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,19 +14,23 @@
 		</div>
 	</nav>
 <main>
-  <!-- Connection settings -->
+  <!-- Connection settings /// Api base URL and Admin key-->
   <section class="card">
     <div class="row">
       <div>
         <div class="muted">API Base URL</div>
-        <input id="apiBase" type="url" placeholder="https://your-api.onrender.com" size="40">
+        <!-- admin should enters the server URL: https://pm-server-68r5.onrender.com /// for connection -->
+        <input id="apiBase" type="url" placeholder="https://pm-server-68r5.onrender.com" size="40">
       </div>
       <div>
         <div class="muted">Admin API Key</div>
+        <!-- admin should enters secret admin API key, it is in the  environments which is on the server /// for connection -->
         <input id="adminKey" type="password" placeholder="••••••••••••••••••••••" size="34">
       </div>
       <div style="align-self:end; margin-bottom:-2px;">
+        <!-- Save config button to sessionStorage -->
         <button id="saveCfg" class="btn btn-green">Save</button>
+        <!-- reload users list button from backend -->
         <button id="refresh" class="btn btn-blue">Refresh Users</button>
       </div>
     </div>
@@ -52,53 +56,64 @@
 </main>
 
 <script>
-  // --- config helpers ---
+  ////////config helpers ---------------------
+
   const $ = s => document.querySelector(s);
   const cfg = {
-    get api(){ return sessionStorage.getItem("admin_api_base") || ""; },
+    //// Get the stored Api base URL
+    get api(){ return sessionStorage.getItem("admin_api_base") || ""; },  
+      //// save Api base URL to sessionStorage
     set api(v){ sessionStorage.setItem("admin_api_base", v); },
+    //// Get the stored admin key, or empty if not set///
     get key(){ return sessionStorage.getItem("admin_key") || ""; },
+    ///// save admin key to sessionStorage
     set key(v){ sessionStorage.setItem("admin_key", v); },
   };
 
-  // populate inputs on load
+  ///// populate inputs on load
   $("#apiBase").value = cfg.api;
   $("#adminKey").value = cfg.key;
 
+   ///// Save button handler
   $("#saveCfg").addEventListener("click", ()=>{
     cfg.api = $("#apiBase").value.trim();
     cfg.key = $("#adminKey").value.trim();
     alert("Saved. Now click Refresh Users.");
   });
-
+   //// Refresh Users button handler////
   $("#refresh").addEventListener("click", listUsers);
-
-  async function listUsers(){
+ 
+  async function listUsers(){  // listUsers()
     const body = $("#usersBody");
     if(!cfg.api || !cfg.key){
       body.innerHTML = `<tr><td colspan="4" class="muted">Set API Base URL and Admin Key first.</td></tr>`;
       return;
     }
+    // Show loading state while fetching
     body.innerHTML = `<tr><td colspan="4" class="muted">Loading…</td></tr>`;
     try{
-      const r = await fetch(`${cfg.api}/admin/users`, { headers: { "x-admin-key": cfg.key } });
-      if(!r.ok){ throw new Error(`${r.status} ${r.statusText}`); }
-      const data = await r.json(); // { users: [...] }
+      const r = await fetch(`${cfg.api}/admin/users`, { headers: { "x-admin-key": cfg.key } });//// request the list of users from the admin endpoint
+      if(!r.ok){ throw new Error(`${r.status} ${r.statusText}`); } // //if response is not OK (e.g. 401, 500), throw an error
+      const data = await r.json(); ////expect Json in the form { users: [...] } /////
       renderUsers(data.users || []);
     }catch(e){
+      ///// Show error message in the table body///
       body.innerHTML = `<tr><td colspan="4" class="muted">Error: ${e.message}</td></tr>`;
     }
   }
-
-  function renderUsers(users){
+   ////// renderUsers(users)  ////
+  function renderUsers(users){    
     const body = $("#usersBody");
-    if(!users.length){
-      body.innerHTML = `<tr><td colspan="4" class="muted">No users yet.</td></tr>`;
+    if(!users.length){  ///// if users array is empty, show a placeholder row
+      body.innerHTML = `<tr><td colspan="4" class="muted">No users yet.</td></tr>`;    ///// if there are no users: shows "No users yet"
       return;
     }
+    // Clear any previous content
     body.innerHTML = "";
+    // Create a table row for each user
     for(const u of users){
       const tr = document.createElement("tr");
+      // prevent XSS from username and email
       tr.innerHTML = `
         <td>${escapeHtml(u.username)}</td>
         <td>${escapeHtml(u.email || "")}</td>
@@ -112,34 +127,38 @@
     }
   }
 
-  // delegate actions
+  ////// delegate actions -----------------
+
   $("#usersBody").addEventListener("click", async (e)=>{
+    ///// find button that has a data-act attribute
     const btn = e.target.closest("button[data-act]");
-    if(!btn) return;
-    const act = btn.dataset.act;
+    if(!btn) return;  //if click was not on an action button
+    const act = btn.dataset.act;  
     const username = btn.dataset.user;
 
+    ////// Delete user action
     if(act === "del"){
-      if(!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+      if(!confirm(`Delete user "${username}"? This cannot be undone.`)) return; ///// confirm with the user before deleting
       try{
-        const r = await fetch(`${cfg.api}/admin/users/${encodeURIComponent(username)}`, {
+        const r = await fetch(`${cfg.api}/admin/users/${encodeURIComponent(username)}`, { ///// send delete request to server /admin/users/:username
           method:"DELETE", headers:{ "x-admin-key": cfg.key }
         });
-        const j = await r.json();
+        const j = await r.json();  ///// parse Json response
         if(!r.ok) throw new Error(j.error || "Delete failed");
-        alert(`Deleted ${username}`);
-        listUsers();
-      }catch(err){ alert(err.message); }
+        alert(`Deleted ${username}`);    ////// Notify success
+        listUsers();   ////it will refresh the users list after is was deleted
+      }catch(err){ alert(err.message); }   // show any error 
     }
 
+    ////// resend activation email ------------
     if(act === "resend"){
       try{
-        const r = await fetch(`${cfg.api}/admin/resend-activation`, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json", "x-admin-key": cfg.key },
+        const r = await fetch(`${cfg.api}/admin/resend-activation`, { ///// send Post to /admin/resend-activation
+          method:"POST",   
+          headers:{ "Content-Type":"application/json", "x-admin-key": cfg.key }, 
           body: JSON.stringify({ username })
         });
-        const j = await r.json();
+        const j = await r.json();   // parse Json response
         if(!r.ok) throw new Error(j.error || "Resend failed");
         alert(j.message || "Activation email resent");
       }catch(err){ alert(err.message); }
@@ -147,7 +166,7 @@
   });
 
   // small HTML escape
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); } ////// to avoid injecting ////// unsafe content into the page from user data.
 </script>
 </body>
 </html>
